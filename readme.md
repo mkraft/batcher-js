@@ -1,0 +1,4 @@
+```shell
+npm i
+tsc
+```
