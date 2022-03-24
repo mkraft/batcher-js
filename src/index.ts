@@ -1,1 +1,1 @@
-export {proxy, handler, event} from './hello-world'
+export {Proxy, handler} from './proxy'

@@ -1,25 +1,20 @@
 interface publisher {
-    publish(event: event[]);
-}
-
-export interface event {
-    name: string;
-    data: any;
+    publish(message: any[]);
 }
 
 export type handler = {
     maxSize: number;
     waitMilliseconds: number;
-    matcher: (event: event) => [string, boolean];
-    reducer: (events: event[]) => event[];
+    matcher: (message: any) => [string, boolean];
+    reducer: (messages: any[]) => any[];
 }
 
 type queue = {
     id: number;
-    events: event[];
+    messages: any[];
 }
 
-export class proxy {
+export class Proxy {
     publisher: publisher;
     handlers: handler[];
     queues: Map<string, queue>;
@@ -30,33 +25,33 @@ export class proxy {
         this.queues = new Map<string, queue>();
     }
 
-    publish(event: event) {
+    publish(message: any) {
         for (let i = 0; i < this.handlers.length; i++) {
             const handler: handler = this.handlers[i];
-            const [queueName, isMatch]: [string, boolean] = handler.matcher(event);
+            const [queueName, isMatch]: [string, boolean] = handler.matcher(message);
             if (!isMatch) {
                 continue
             }
             let queue: queue | undefined = this.queues.get(queueName);
-            let events: event[];
+            let messages: any[];
             if (queue === undefined) {
-                events = [event];
+                messages = [message];
             } else {
-                events = [...queue.events, event];
+                messages = [...queue.messages, message];
                 clearTimeout(queue.id);
-                if (events.length >= handler.maxSize) {
-                    this.publisher.publish(events);
+                if (messages.length >= handler.maxSize) {
+                    this.publisher.publish(messages);
                     this.queues.delete(queueName);
                     return
                 }
             }
-            const id: number = setTimeout((evts: event[]) => {
+            const id: number = setTimeout((evts: any[]) => {
                 this.publisher.publish(evts);
                 this.queues.delete(queueName);
-            }, handler.waitMilliseconds, events);
-            this.queues.set(queueName, { id, events });
+            }, handler.waitMilliseconds, messages);
+            this.queues.set(queueName, { id, messages });
             return // only operate on the the first handler match
         }
-        this.publisher.publish([event]);
+        this.publisher.publish([message]);
     }
 }

@@ -1,7 +1,7 @@
 {
-    "name": "hwrld",
-    "version": "1.0.0",
-    "description": "Can log \"hello world\" and \"goodbye world\" to the console!",
+    "name": "batchelor",
+    "version": "0.0.1",
+    "description": "A message batching proxy.",
     "main": "dist/index.js",
     "types": "dist/index.d.ts",
     "files": [
