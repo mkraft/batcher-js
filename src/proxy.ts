@@ -46,8 +46,15 @@ export class Proxy {
                 this.queues.delete(queueName);
             }, handler.waitMilliseconds, messages);
             this.queues.set(queueName, { id, messages });
-            return // only operate on the the first handler match
+            
+            // if operation is here then a handler was matched
+            // and the message was processed so stop the loop
+            // because only one matcher should be used
+            return
         }
-        this.out([message]);
+
+        // if execution is here then there are not matching handlers
+        // so send the message out immediately and unreduced
+        this.out(message);
     }
 }
