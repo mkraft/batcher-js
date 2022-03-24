@@ -57,5 +57,6 @@ export class proxy {
             this.queues.set(queueName, { id, events });
             return // only operate on the the first handler match
         }
+        this.publisher.publish([event]);
     }
 }
