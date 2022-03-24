@@ -2,7 +2,7 @@ export type handler = {
     maxSize: number;
     waitMilliseconds: number;
     matcher: (message: any) => [string, boolean];
-    reducer: (messages: any[]) => any[];
+    reducer: (messages: any[]) => any;
 }
 
 type queue = {
