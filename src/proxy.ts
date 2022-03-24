@@ -11,17 +11,17 @@ type queue = {
 }
 
 export class Proxy {
-    publisher: (message: any[]) => any;
+    out: (message: any[]) => any;
     handlers: handler[];
     queues: Map<string, queue>;
 
-    constructor(publisher:  (message: any[]) => any, handlers: handler[]) {
-        this.publisher = publisher;
+    constructor(out:  (message: any[]) => any, handlers: handler[]) {
+        this.out = out;
         this.handlers = handlers;
         this.queues = new Map<string, queue>();
     }
 
-    publish(message: any) {
+    in(message: any) {
         for (let i = 0; i < this.handlers.length; i++) {
             const handler: handler = this.handlers[i];
             const [queueName, isMatch]: [string, boolean] = handler.matcher(message);
@@ -36,18 +36,18 @@ export class Proxy {
                 messages = [...queue.messages, message];
                 clearTimeout(queue.id);
                 if (messages.length >= handler.maxSize) {
-                    this.publisher(messages);
+                    this.out(messages);
                     this.queues.delete(queueName);
                     return
                 }
             }
             const id: number = setTimeout((evts: any[]) => {
-                this.publisher(evts);
+                this.out(evts);
                 this.queues.delete(queueName);
             }, handler.waitMilliseconds, messages);
             this.queues.set(queueName, { id, messages });
             return // only operate on the the first handler match
         }
-        this.publisher([message]);
+        this.out([message]);
     }
 }
