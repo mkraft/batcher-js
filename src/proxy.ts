@@ -53,7 +53,7 @@ export class Proxy {
             return
         }
 
-        // if execution is here then there are not matching handlers
+        // if execution is here then there are no matching handlers
         // so send the message out immediately and unreduced
         this.out(message);
     }
