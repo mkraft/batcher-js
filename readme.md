@@ -1,6 +1,6 @@
 # Batchelor
 
-*WORK IN PROGRESS; DO NOT USE; NEEDS TESTS*
+*DO NOT USE YET; NEEDS TESTS*
 
 Batch a list of messages you're sending or receiving based on some configured logic.
 
