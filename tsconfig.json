@@ -3,7 +3,13 @@
         "module": "commonjs",
         "target": "es2015",
         "declaration": true,
-        "outDir": "./dist"
+        "outDir": "./dist",
+        "noImplicitAny": true,
+        "noImplicitThis": true,
+        "strictNullChecks": true,
+        "strictPropertyInitialization": true,
+        "strictBindCallApply": true,
+        "strictFunctionTypes": true,
     },
     "include": [
         "src/**/*"

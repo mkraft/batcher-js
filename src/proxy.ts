@@ -1,5 +1,5 @@
 interface publisher {
-    publish(message: any[]);
+    publish(message: any[]): any;
 }
 
 export type handler = {
