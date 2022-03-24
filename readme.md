@@ -1,5 +1,7 @@
 # Batchelor
 
+*WORK IN PROGRESS; DO NOT USE*
+
 Batch a list of messages you're sending or receiving based on some configured logic.
 
 ## Details
