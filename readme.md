@@ -1,4 +1,4 @@
 ```shell
-npm i
-tsc
+$ npm i
+$ tsc
 ```
