@@ -1,6 +1,5 @@
 ```shell
-$ npm i
-$ tsc
+$ yarn install
 ```
 
 Example usage: https://github.com/mkraft/someotherproject
