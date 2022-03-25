@@ -1,24 +1,18 @@
 export type handler = {
-    maxSize: number;
     waitMilliseconds: number;
     matcher: (message: any) => [string, boolean];
-    reducer: (messages: any[]) => any;
-}
-
-type queue = {
-    id: number;
-    messages: any[];
+    reducer?: (messages: any[]) => any;
 }
 
 export class Proxy {
     out: (message: any[]) => any;
     handlers: handler[];
-    queues: Map<string, queue>;
+    queues: Map<string, any[]>;
 
-    constructor(out:  (message: any[]) => any, handlers: handler[]) {
+    constructor(out: (message: any[]) => any, handlers: handler[]) {
         this.out = out;
         this.handlers = handlers;
-        this.queues = new Map<string, queue>();
+        this.queues = new Map<string, any[]>();
     }
 
     in(message: any) {
@@ -28,26 +22,27 @@ export class Proxy {
             if (!isMatch) {
                 continue
             }
-            let queue: queue | undefined = this.queues.get(queueName);
+            let queue: any[] | undefined = this.queues.get(queueName);
             let messages: any[];
-            if (queue === undefined) {
+            if (queue === undefined || queue.length == 0) {
                 messages = [message];
+                setTimeout(() => {
+                    let queue: any[] | undefined = this.queues.get(queueName);
+                    if (queue !== undefined) {
+                        if (handler.reducer) {
+                            this.out(handler.reducer(queue));
+                        } else {
+                            this.out(queue);
+                        }
+                        this.queues.delete(queueName);
+                    }
+                }, handler.waitMilliseconds);
             } else {
-                messages = [...queue.messages, message];
-                clearTimeout(queue.id);
-                if (messages.length >= handler.maxSize) {
-                    this.out(messages);
-                    this.queues.delete(queueName);
-                    return
-                }
+                messages = [...queue, message];
             }
-            const id: number = setTimeout((evts: any[]) => {
-                this.out(evts);
-                this.queues.delete(queueName);
-            }, handler.waitMilliseconds, messages);
-            this.queues.set(queueName, { id, messages });
-            
-            // if operation is here then a handler was matched
+            this.queues.set(queueName, messages);
+
+            // if execution is here then a handler was matched
             // and the message was processed so stop the loop
             // because only one matcher should be used
             return
