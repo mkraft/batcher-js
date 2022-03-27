@@ -1,6 +1,4 @@
-# Batchelor
-
-*DO NOT USE YET; NEEDS TESTS*
+# Batchelor JS
 
 Buffer and/or batch a list of messages you're sending or receiving.
 
