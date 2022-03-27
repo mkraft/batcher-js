@@ -13,5 +13,5 @@ Example usage: https://github.com/mkraft/someotherproject/blob/main/src/index.ts
 ## Install
 
 ```shell
-yarn add https://github.com/mkraft/batchelor
+yarn add https://github.com/mkraft/batchelorjs
 ```
