@@ -1,7 +1,6 @@
 export type handler = {
     waitMilliseconds: number;
     matcher: (message: any) => [string, boolean];
-    reducer?: (messages: any[]) => any;
 }
 
 export class Proxy {
@@ -29,11 +28,7 @@ export class Proxy {
                 setTimeout(() => {
                     let queue: any[] | undefined = this.queues.get(queueName);
                     if (queue !== undefined) {
-                        if (handler.reducer) {
-                            this.out(handler.reducer(queue));
-                        } else {
-                            this.out(queue);
-                        }
+                        this.out(queue);
                         this.queues.delete(queueName);
                     }
                 }, handler.waitMilliseconds);
