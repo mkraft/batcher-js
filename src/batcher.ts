@@ -3,7 +3,7 @@ export type handler = {
     matcher: (message: any) => [string, boolean];
 }
 
-export class Proxy {
+export class Batcher {
     out: (message: any[]) => any;
     handlers: handler[];
     queues: Map<string, any[]>;

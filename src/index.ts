@@ -1,1 +1,1 @@
-export {Proxy, handler} from './proxy'
+export {Batcher, handler} from './batcher'

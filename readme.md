@@ -1,10 +1,10 @@
 # Batcher JS
 
-Buffer and/or batch a list of messages you're sending or receiving.
+A message batching and/or buffering module for incoming or outgoing messages.
 
 ## Details
 
-Configure a `handler` for messages that match your configured `matcher` function. Queue incoming messages for `waitMilliseconds` and then send then out through the optional configured `reducer` function.
+Send messages in, if they meet some criteria then queue them with the other matched messages. When the duration elapses since the first message in that queue was received then send them back out as a batch.
 
 Example usage: https://github.com/mkraft/someotherproject/blob/main/src/index.ts
 
