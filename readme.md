@@ -1,4 +1,4 @@
-# Batchelor JS
+# Batcher JS
 
 Buffer and/or batch a list of messages you're sending or receiving.
 
